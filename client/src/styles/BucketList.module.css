@@ -1,0 +1,54 @@
+.Bucket{
+    display:flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 3rem;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.Ingrestack{
+
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    width: 650px;
+    border: 0.1px solid #888888;
+    border-radius: 12px;
+    padding-top: 10px;
+    box-shadow: 1px 1px 5px #888888;
+    margin: auto;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.delbtn{
+    position: relative;
+    left: 275px;
+
+
+}
+.bucketh1{
+    font-family: 'Tilt Warp', cursive;
+    text-align: center;
+    margin-top: 70px;
+    font-size: 40px;;
+}
+@media only screen and (max-width: 625px){
+
+   
+    .Ingrestack{
+        width: 400px;
+    }
+
+    .delbtn{
+        position: relative;
+        left: 150px;
+    }
+
+    .ingredient-input{
+        position: relative;
+        bottom: 10px;
+    }
+}

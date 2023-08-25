@@ -1,0 +1,407 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------BucketList---------------- */
+.Bucket {
+   display: flex;
+   align-items: center;
+   flex-wrap: wrap;
+   column-gap: 3rem;
+   justify-content: center;
+   margin-top: 50px;
+   margin-bottom: 20px;
+}
+
+.Ingrestack {
+   display: flex;
+   justify-content: center;
+   height: 50px;
+   width: 650px;
+   border: 0.1px solid #888888;
+   border-radius: 12px;
+   padding-top: 10px;
+   box-shadow: 1px 1px 5px #888888;
+   margin: auto;
+   margin-bottom: 10px;
+   text-align: center;
+}
+
+.delbtn {
+   position: relative;
+   left: 275px;
+}
+.bucketh1 {
+   font-family: "Tilt Warp", cursive;
+   text-align: center;
+   margin-top: 70px;
+   font-size: 40px;
+}
+@media only screen and (max-width: 625px) {
+   .Ingrestack {
+      width: 400px;
+   }
+
+   .delbtn {
+      position: relative;
+      left: 150px;
+   }
+
+   .ingredient-input {
+      position: relative;
+      bottom: 10px;
+   }
+}
+
+/* -------------------RecipeTemplate---------------------- */
+
+.row {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-around;
+   margin-top: 70px;
+}
+
+.col-2 {
+   flex-basis: 50%;
+   min-width: 300px;
+}
+
+.col-2 img {
+   max-width: 100%;
+   border-radius: 10px;
+}
+
+.small-container {
+   max-width: 1080px;
+   padding-left: 25px;
+   padding-right: 25px;
+   margin: auto;
+}
+
+.recipe-title {
+   position: relative;
+   margin: auto;
+   font-family: "Lato", sans-serif;
+   font-size: 40px;
+}
+
+.rating .fa {
+   color: #ff523b;
+   font-size: 21px;
+}
+
+.recipe-info {
+   font-size: 22px;
+   color: #555;
+}
+
+.recipe-detail-title {
+   font-family: "Lato", sans-serif;
+   font-size: 30px;
+   margin-bottom: 15px;
+}
+
+.ingredients-ul {
+   font-size: 20px;
+   line-height: 2.5;
+}
+
+.description-p {
+   font-size: 19px;
+}
+
+ol li {
+   list-style: decimal;
+}
+
+.nutrition-facts {
+   width: 100%;
+   padding: 20px;
+   font-family: Arial, sans-serif;
+   font-size: 18px;
+}
+.facts-header {
+   text-align: center;
+   font-weight: bold;
+   font-size: 20px;
+   margin-bottom: 20px;
+}
+.facts-table {
+   width: 100%;
+   margin-bottom: 20px;
+}
+.facts-table th {
+   text-align: left;
+   width: 40%;
+   padding-right: 10px;
+}
+.facts-table td {
+   text-align: right;
+   width: 60%;
+   padding-left: 10px;
+}
+.facts-table tr:nth-child(even) {
+   background-color: #f2f2f2;
+}
+
+.review-form-section {
+   padding: 20px;
+   border: 1px solid #e0e0e0;
+   border-radius: 5px;
+   text-align: center;
+}
+
+.review-form-section h3 {
+   margin-top: 0;
+   margin-bottom: 10px;
+}
+  .nutrition-facts {
+    display: flex;
+  }
+  
+ 
+  .review-form-section {
+    
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .review-form-section h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+ 
+  
+  .form-group input[type="text"], .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  
+ 
+  
+  .star-rating {
+    display: inline-block;
+    font-size: 0;
+    text-align: center;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .star-rating input {
+    display: none;
+  }
+  
+  .star-rating label {
+    display: inline-block;
+    font-size: 40px;
+    color: #e0e0e0;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+
+.form-group {
+   margin-bottom: 10px;
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+   width: 100%;
+   padding: 10px;
+   border: 1px solid #e0e0e0;
+   border-radius: 5px;
+   font-size: 14px;
+   margin-top: 5px;
+}
+
+
+.star-rating {
+   display: inline-block;
+   font-size: 0;
+   text-align: center;
+   margin-top: 12px;
+   margin-bottom: 12px;
+}
+
+.star-rating input {
+   display: none;
+}
+
+.star-rating label {
+   display: inline-block;
+   font-size: 40px;
+   color: #e0e0e0;
+   transition: color 0.2s;
+   cursor: pointer;
+}
+
+.likedislike {
+   display: flex;
+   justify-content: center;
+   column-gap: 3rem;
+   font-size: 35px;
+   margin-bottom: 30px;
+}
+
+.review-title {
+   font-family: "Lato", sans-serif;
+   font-size: 30px;
+   margin-bottom: 15px;
+   text-align: center;
+   color: #555;
+}
+
+.nutritional-circle {
+   position: relative;
+   width: 200px;
+   height: 200px;
+   margin: 10px;
+ }
+ 
+ .nutritional-circle__gray {
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+ }
+ 
+ .nutritional-circle__gray-circle {
+   fill: #E8E8E8;
+ }
+ 
+ .nutritional-circle__percentage {
+   font-size: 4px;
+   font-weight: bold;
+   fill: #333;
+   text-anchor: middle;
+ }
+ 
+ .nutritional-circle__label {
+   font-size: 3.8px;
+   font-weight:lighter;
+   fill: #333;
+   text-anchor: middle;
+   letter-spacing: 0.1em;
+  
+ }
+ 
+ .nutrition-facts{
+   display: flex;
+ }
+
+
+
+ .reviews-section {
+   margin-top: 40px;
+ }
+ 
+ .review {
+   border: 1px solid #ddd;
+   border-radius: 4px;
+   padding: 20px;
+   margin-bottom: 20px;
+ }
+ 
+ .review-header {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   margin-bottom: 10px;
+ }
+ 
+ 
+ .review-rating {
+   font-size: 18px;
+   font-weight: bold;
+   color: #ffcc00;
+ }
+ 
+ .review-text {
+   margin: 0;
+   font-size: 16px;
+   line-height: 1.5;
+ }
+ 
+ .review-author {
+   display: flex;
+   align-items: center;
+   margin-top: 10px;
+ }
+ 
+ .avatar {
+   border-radius: 50%;
+   margin-right: 10px;
+   height: 40px;
+   width: 40px;
+ }
+ 
+ .author-name {
+   font-size: 16px;
+   font-weight: bold;
+ }
+ .user-rating .fa {
+   color: #ff523b;
+   font-size: 15px;
+}
+
+
+/* --------------About Us---------------- */
+
+.row-aboutus {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: space-between;
+   margin-top: 70px;
+}
+
+.col-aboutus {
+   flex-basis: 50%;
+   min-width: 300px;
+}
+
+.col-aboutus img {
+   max-width: 100%;
+   border-radius: 10px;
+   
+}
+
+.small-container-aboutus {
+   padding-left: 100px;
+   padding-right: 35px;
+   margin: auto;
+}
+
+.aboutus-h1{
+   text-align: center;
+   font-family: "Lato", sans-serif;
+   font-size: 80px;
+   font-weight: bold;
+   position: relative;
+   bottom: 20px;
+}
+
+.aboutus-p{
+   font-family: "Lato", sans-serif;
+   font-size: 20px;
+}
+
+.col-3-aboutus{
+   flex-basis: 30%;
+   min-width: 250px;
+   
+}
+
+.col-3-aboutus img{
+   width: 100%;
+}
