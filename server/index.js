@@ -98,38 +98,6 @@ app.post("/profile", async (req, res) => {
    }
 });
 
-app.post("/saverecipe", async (req, res) => {
-   const token = req.body.token;
-   const recipe_id = req.body.recipe_id;
-   try {
-      const decoded = jwt.verify(token, JWT_SECRET);
-      const user = await user_m.findOne({ email: decoded.email });
-      if (!user) {
-         return res.json({ status: "error", message: "User not found" });
-      } 
-      const recipe = await recipe_m.findOne({ id: recipe_id });
-      if (!recipe) {
-         return res.json({ status: "error", message: "Recipe not found" });
-      } else {
-         if (userPref_m.findOne({ user_id: user_id })) {
-            const userPref = await userPref_m.findOne({ user_id: user._id });
-            userPref.prefRecipe.push(recipe_id);
-            userPref.save();
-            res.send({ status: "ok", message: "UserPref updated" });
-         } else {
-            const userPref = await userPref_m.create({
-               _id: new ObjectId(),
-               user_id: user_id,
-               prefRecipe: [recipe_id],
-            });
-            res.send({ status: "ok", message: "UserPref created" });
-         }
-      }
-   } catch (err) {
-      res.send({ status: "error", message: "error occured" });
-   }
-});
-
 app.post("/explore", async (req, res) => {
    try {
       const recipe = await recipe_m.aggregate([{ $sample: { size: 20 } }]);

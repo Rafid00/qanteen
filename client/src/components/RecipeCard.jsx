@@ -8,7 +8,11 @@ import NavContext from "./NavContext";
 const RecipeCard = (props) => {
    let params = useParams();
 
-   // const dishTypes = props.dishTypes?.split(",");
+   let dishT = "";
+
+   if (props.dishTypes) {
+      dishT = props.dishTypes?.split(",");
+   }
 
    return (
       <div>
@@ -16,7 +20,7 @@ const RecipeCard = (props) => {
             <Link to={"/recipe/" + props.id}>
                <div className="card max-w-xs bg-base-100 shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
                   <figure className="w-[320px] object-cover">
-                     <img src={props.image? props.image : "images/buy-1.jpg"} alt={props.title} />
+                     <img src={props.image ? props.image : "images/buy-1.jpg"} alt={props.title} />
                   </figure>
                   <div className="card-body">
                      <h2 className="card-title capitalize text-base">
@@ -39,12 +43,10 @@ const RecipeCard = (props) => {
                         </div>
                      </div>
                      <div className="card-actions justify-end lowercase">
-                        {/* <div className="badge badge-outline">
-                           {dishTypes[0]? dishTypes[0] : "no dish type"}
+                        <div className="badge badge-outline">{dishT.length > 0 ? dishT[0] : "no dish type"}</div>
+                        <div className={`badge badge-outline ${dishT.length > 1 ? "inline-flex" : "hidden"}`}>
+                           {dishT.length > 1 ? dishT[1] : ""}
                         </div>
-                        <div className={`badge badge-outline ${dishTypes[1]? "inline-flex": "hidden"}`}>
-                           {dishTypes[1]? dishTypes[1] : ""}
-                        </div> */}
                      </div>
                   </div>
                </div>

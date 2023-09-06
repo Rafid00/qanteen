@@ -47,7 +47,7 @@ const Register = () => {
                         <span className="w-[120px] justify-center text-sm">Name</span>
                         <input
                            type="text"
-                           placeholder="Tom Hanks"
+                           placeholder="Rafid Ahmmad"
                            className="input input-bordered w-full"
                            onChange={(e) => setName(e.target.value)}
                         />

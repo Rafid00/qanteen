@@ -59,3 +59,9 @@ Database Schema
 
 
 mongodb+srv://rafidbeingrafid:<password>@cluster0.zascp8p.mongodb.net/?retryWrites=true&w=majority
+
+Recipe Page
+Data Collection From Spoonicular
+Recommendation System
+Database connection
+Login/Registration

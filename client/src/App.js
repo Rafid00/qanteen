@@ -5,7 +5,8 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Footer from "./components/Footer.jsx";
-import RecipleTemplate from "./pages/RecipeTemplate.js";
+import RecipeTemplate from "./pages/RecipeTemplate.js";
+import Recipe from "./pages/Recipe.jsx";
 import BucketList from "./pages/BucketList.js";
 import NavContext from "./components/NavContext.jsx";
 import Profile from "./pages/Profile.jsx";
@@ -28,7 +29,8 @@ const App = () => {
                <Route path="/login" element={<Login />} />
                <Route path="/register" element={<Register />} />
                <Route path="/profile" element={<Profile />} />
-               <Route path="/recipe/:name" element={<RecipleTemplate />} />
+               <Route path="/recipeTemp/:name" element={<RecipeTemplate />} />
+               <Route path="/recipe/:name" element={<Recipe />} />
                <Route path="/bucket" element={<BucketList />} />
                <Route path="/aboutus" element={<AboutUs />} />
                <Route path="/advanced" element={<Advanced />} />
