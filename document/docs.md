@@ -26,9 +26,29 @@ Database Schema
 		Biography - String
 		Password - String
 		Date of Opening - Date
-		Your Posts - [Recipt Post]
-		Liked Posts - [Recipt Post]
-		Saved Posts - [Recipt Post]
+		Total Upvote - Number
+		Total Downvote - Number
+		Your Posts - [Recipe ID]
+		Liked Posts - [Recipe ID]
+		Saved Posts - [Recipe ID]
+	
+	Recipe ->
+		ID - String (Random + Unique)
+		Posted By - User ID
+		Title - String
+		Description - String
+		Avg Rating - Number
+		Ingredients - [Ingredients Schema]
+		Serving Size - Number
+		Prep Time - Number
+		Instructions - String Array[]
+		Nutritional Information - [NutritionalSchema]
+  		Ratings / Comments - [RatingSchema]
+		Upvote - Number
+		Downvote - Number
+		Image - String
+		Followers - [User ID]
+		Follows - [User ID]
 
 	Ingredient Schema ->
 		Name - String
@@ -36,32 +56,18 @@ Database Schema
 
 	NutritionalSchema ->
 		Name - String
-		Quantity
-
-	CommentSchema ->
-  		Author - String
-  		Text - String
+		Quantity - String
 
 	RatingSchema ->
-  		Value - Number
-  		User - String
-	
-	Recipe Post ->
-		Posted By - User ID
-		Title - String
-		Description - String
-		Rating - Integer
-		Ingredients - [Ingredients Schema]
-		Instructions - String
-		Nutritional Information - NutritionalSchema
-		Comments: [CommentSchema],
-  		Ratings: [RatingSchema],
+		Author - User ID
+  		Rating Value - Number
+		Comment - String
 
 
 mongodb+srv://rafidbeingrafid:<password>@cluster0.zascp8p.mongodb.net/?retryWrites=true&w=majority
 
-Recipe Page
-Data Collection From Spoonicular
+Recipe Page - Frontend
+Data Collection / Extraction From Spoonicular - Using python
 Recommendation System
-Database connection
-Login/Registration
+Database connection - MongoDB Atlas
+Login/Registration Functionality - Using MongoDB and Express JS
