@@ -1,67 +1,85 @@
 Page Plans
 
-	Sign In + Registration + Forgot Password [Rafid]
+	<!-- Sign In + Registration + Forgot Password [Rafid]
 	Home Page / Feed + Basic Search [ Twitter ] [Rafid]
 	Advanced Search + Browse / Explore [ Instagram ] [Rafid]
 		
 	Profile + Edit Profile [Rafid]
-	Saved / Bookmarks + Liked Recipes [Habib]
-	Recipe Page Template + Comment + Rating [Habib]
-	My Bucket List [Habib]
-	About Us [Habib]
+	Saved / Bookmarks + Liked Recipes [Rafid]
+	Recipe Page Template + Comment + Rating [Rafid]
+	My Bucket List [Rafid]
+	About Us [Rafid]
 
 	Follow / Subscribe Account [Rafid]
+	Messenger Application -->
+
+	Sign In [D]
+	Registration [D]
+	Forget Password
+	Advanced Search [D]
+	Browse / Explore [D]
+	Profile [D]
+	Edit Profile [D]
+	Saved / Bookmarks [D]
+	Liked Recipes [D]
+	Recipe Page [D]
+	Rating / Comment [D]
+	Bucket List
+	Follow / Subscribe Account
 	Messenger Application
+	About Us
+	Search Result
 
 Recommendation Model Train: https://colab.research.google.com/drive/1T-U9XejZrqBR0RCoA5Koup4EBr7O-B6a?usp=sharing
 
-
+id, sourceUrl, sourceName, title, summary, extendedIngredients, servings, readyInMinutes, instructions, image
 Database Schema
 
 	User Profile ->
 		ID - String (Random + Unique)
 		Name - String
-		Email - String
+		Email - Unique String
 		Phone - String
 		Biography - String
-		Password - String
+		Password - Hashed String
 		Date of Opening - Date
 		Total Upvote - Number
 		Total Downvote - Number
 		Your Posts - [Recipe ID]
 		Liked Posts - [Recipe ID]
 		Saved Posts - [Recipe ID]
+		Image - String
+		Followers - [User ID]
+		Follows - [User ID]
 	
 	Recipe ->
-		ID - String (Random + Unique)
-		Posted By - User ID
+		id - String (Random + Unique)
+		sourceUrl - String
+		sourceName - User ID
 		Title - String
-		Description - String
-		Avg Rating - Number
-		Ingredients - [Ingredients Schema]
-		Serving Size - Number
-		Prep Time - Number
-		Instructions - String Array[]
-		Nutritional Information - [NutritionalSchema]
-  		Ratings / Comments - [RatingSchema]
+		dishTypes - [String]
+		summary - String
+		extendedIngredients - [String]
+		averageRating - Number
+		servings - Number
+		readyInMinutes - Number
+		Instructions - String
+		Nutritional Information - [{
+			Name - String
+			Quantity - String
+
+		}]
+  		Ratings / Comments - [{
+			Author - User ID
+  			Rating Value - Number
+			Comment - String
+
+		}]
 		Upvote - Number
 		Downvote - Number
 		Image - String
 		Followers - [User ID]
 		Follows - [User ID]
-
-	Ingredient Schema ->
-		Name - String
-		Quantity - String
-
-	NutritionalSchema ->
-		Name - String
-		Quantity - String
-
-	RatingSchema ->
-		Author - User ID
-  		Rating Value - Number
-		Comment - String
 
 
 mongodb+srv://rafidbeingrafid:<password>@cluster0.zascp8p.mongodb.net/?retryWrites=true&w=majority

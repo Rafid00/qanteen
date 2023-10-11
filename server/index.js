@@ -15,10 +15,20 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+mongoose
+   .connect("mongodb+srv://rafid:rafid00@cluster0.u0jz9ty.mongodb.net/qanteen?retryWrites=true&w=majority", {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+   })
+   .then(() => app.listen(5000, () => console.log("Listening on port 5000.")))
+   .catch((err) => console.error("Could not connect to MongoDB.", err));
+
 app.post("/recommendations", async (req, res) => {
-   const data = {
-      desired_recipe: "Chicken Ranch Burgers",
-   };
+   const data = [
+      {
+         recipe: "Steak Salad with Chimichurri Sauce",
+      },
+   ];
 
    const recommended_recipe = [];
 
@@ -30,7 +40,7 @@ app.post("/recommendations", async (req, res) => {
       .then((response) => response.json())
       .then(async (data) => {
          for (let i = 0; i < 20; i++) {
-            const recipeOne = await recipe_m.findOne({ id: data.recommendations_id[i] });
+            const recipeOne = await recipe_m.findOne({ _id: data.recommendations_id[i] });
             recommended_recipe.push(recipeOne);
          }
          res.send({ status: "ok", recipe: recommended_recipe });
@@ -107,13 +117,18 @@ app.post("/explore", async (req, res) => {
    }
 });
 
-mongoose
-   .connect("mongodb+srv://rafidbeingrafid:12345@cluster0.0iziser.mongodb.net/SavorioRecipe?retryWrites=true&w=majority", {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-   })
-   .then(() => app.listen(5000, () => console.log("Listening on port 5000...")))
-   .catch((err) => console.error("Could not connect to MongoDB...", err));
+app.post("/recipeInfo", async (req, res) => {
+   try {
+      const { id } = req.body;
+      const recipeInfo = await recipe_m.findOne({ _id: id });
+      if (!recipeInfo) {
+         return res.json({ status: "error", error: "Recipe not found" });
+      }
+      res.send({ status: "ok", recipeInfo: recipeInfo });
+   } catch (err) {
+      res.send({ status: "error", error: err });
+   }
+});
 
 app.get("/recipes", async (req, res) => {
    recipe_m
@@ -130,10 +145,8 @@ app.post("/search", async (req, res) => {
    try {
       const { searchString } = req.body;
       const recipes = await recipe_m.find({ title: { $regex: searchString, $options: "i" } });
-      console.log(recipes);
-
       res.send({ status: "ok", recipes: recipes });
    } catch (err) {
-      res.send({ status: "error", error: err });
+      res.status(500).json({ error: "An error occurred while searching for recipes." });
    }
 });

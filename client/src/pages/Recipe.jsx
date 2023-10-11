@@ -8,22 +8,20 @@ const Recipe = () => {
    let params = useParams();
    let token = localStorage.getItem("token");
 
-   const fetchRecipeData = async () => {
-      try {
-         const data = await fetch(`https://api.spoonacular.com/recipes/${params.name}/information?apiKey=${ApiKey}`);
-         const response = await data.json();
-         return response;
-      } catch (e) {
-         console.log(e, "something went wrong");
-         return e;
-      }
-   };
 
    useEffect(() => {
-      fetchRecipeData().then((response) => {
-         setData(response);
-         console.log(data);
-      });
+      window.scrollTo(0, 0);
+      fetch("http://localhost:5000/recipeInfo", {
+         method: "POST",
+         headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: params.id }),
+      })
+         .then((res) => res.json())
+         .then((data) => {
+            setData(data.recipeInfo);
+         });
    }, []);
 
    const [thingsArray, setThingsArray] = React.useState([
@@ -40,11 +38,11 @@ const Recipe = () => {
       </div>
    ));
    return (
-      <div className="flex justify-center">
-         <div className="py-16 w-[1100px]">
-            <div className="flex justify-between flex-wrap">
-               <div className="flex flex-col gap-2">
-                  <div className="">
+      <div className="flex justify-center lg:px-24">
+         <div className="py-16 w-full lg:w-[1100px]">
+            <div className="flex justify-center lg:justify-between flex-wrap lg:flex-nowrap">
+               <div className="flex flex-col gap-2 order-2 md:order-1 items-center lg:items-start">
+                  <div className="text-center lg:text-start mt-7 lg:mt-0">
                      <p className="text-4xl font-bold mb-2 w-96">{data.title}</p>
                      <a className="opacity-50 font-medium" href={data.sourceUrl}>
                         {data.sourceName}
@@ -87,12 +85,12 @@ const Recipe = () => {
                      </div>
                   </div>
                </div>
-               <div className="">
+               <div className="order-1 lg:order-2">
                   <img className="rounded-lg" src={data.image} alt="" />
                </div>
             </div>
-            <div class="divider divider-vertical py-10"></div>
-            <div className="description flex flex-col justify-center">
+            <div class="divider divider-vertical py-10 px-7 lg:px-0"></div>
+            <div className="description flex flex-col justify-center  px-7 lg:px-0 text-center lg:text-start">
                <p className="w-full text-2xl mb-2 font-medium">Description</p>
                {data && data.summary ? (
                   <p className="font-sans" dangerouslySetInnerHTML={{ __html: data.summary }}></p>
@@ -101,15 +99,15 @@ const Recipe = () => {
                )}
             </div>
             <div class="divider divider-vertical py-10"></div>
-            <div className="flex justify-between">
-               <div className="flex flex-col justify-center">
+            <div className="flex justify-center lg:justify-between  text-center lg:text-start flex-wrap lg:flex-nowrap px-7 lg:px-0">
+               <div className="flex flex-col justify-center w-full lg:w-fit">
                   <p className="w-full text-2xl mb-2 font-medium">Ingredients</p>
                   <ul className="flex flex-col gap-2">
                      {data && data.extendedIngredients ? (
                         data.extendedIngredients.map((ingredient) => (
-                           <li className="flex items-center" key={ingredient.id}>
+                           <li className="flex items-center justify-center lg:justify-start">
                               <img className="w-5 h-5 mr-2" src="/images/question.png" alt="" />
-                              <p> {ingredient.original}</p>
+                              <p> {ingredient}</p>
                            </li>
                         ))
                      ) : (
@@ -118,13 +116,13 @@ const Recipe = () => {
                   </ul>
                </div>
                <div className="">
-                  <p className="w-64 text-right text-sm opacity-50">
+                  <p className="w-64 lg:text-right text-sm opacity-50  text-center mt-7 lg:mt-0">
                      ** If you are unaware of any ingredient, hover on the question mark to know more about it.
                   </p>
                </div>
             </div>
             <div class="divider divider-vertical py-10"></div>
-            <div className="description flex flex-col justify-center">
+            <div className="description flex flex-col justify-center text-center lg:text-start px-7 lg:px-0">
                <p className="w-full text-2xl mb-2 font-medium">Instructions</p>
                {data && data.summary ? (
                   <p className="font-sans" dangerouslySetInnerHTML={{ __html: data.instructions }}></p>
@@ -133,20 +131,20 @@ const Recipe = () => {
                )}
             </div>
             <div class="divider divider-vertical py-10"></div>
-            <div className="description flex flex-col justify-center">
+            <div className="description flex flex-col justify-center text-center lg:text-start px-7 lg:px-0">
                <p className="w-full text-2xl mb-2 font-medium">Nutrition</p>
                <div className="stats shadow">{thingsElements}</div>
             </div>
             <div class="divider divider-vertical py-10"></div>
-            <div className="description flex flex-col justify-center">
+            <div className="description flex flex-col justify-center text-center lg:text-start px-7 lg:px-0">
                <p className="w-full text-2xl mb-2 font-medium">Feedback</p>
                <div className="flex flex-col justify-center items-center">
                   <img className="avatar inline-block" src="/images/user-photo1.jpg" alt="" />
                   <p className="inline-block">Rafid Ahmmad</p>
                   <p className="text-sm opacity-50 mt-2">Rate this recipe</p>
                   <div className="rating mb-5">
-                     <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
                      <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" checked />
+                     <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
                      <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
                      <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />
                      <input type="radio" name="rating-2" className="mask mask-star-2 bg-orange-400" />

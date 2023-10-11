@@ -3,46 +3,32 @@ from flask import jsonify
 from flask import Flask, jsonify, g
 import numpy as np
 import pandas as pd
-import pymongo
 import difflib
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
+
 def load_data():
     print('\nLoading the data...')
-    
-    # Connect to MongoDB (assuming MongoDB is running on the default localhost:27017)
-    client = pymongo.MongoClient("mongodb+srv://rafid:rafid00@cluster0.u0jz9ty.mongodb.net/?retryWrites=true&w=majority")
-    
-    # Replace "your_database_name" and "your_collection_name" with your actual database and collection names
-    db = client["qanteen"]
-    collection = db["recipes"]
-
-    # Fetch data from MongoDB and convert it to a pandas DataFrame
-    cursor = collection.find()
-    recipes_data = pd.DataFrame(list(cursor))
+    # loading the data from the csv file to apandas dataframe
+    recipes_data = pd.read_csv('../data/recipes.csv')
 
     # selecting the relevant features for recommendation
-    selected_features = ['summary', 'extendedIngredients', 'dishTypes']
+    selected_features = ['summary', 'ingredients', 'dishTypes']
 
-    # replacing the null values with null string
+    # replacing the null valuess with null string
     for feature in selected_features:
         recipes_data[feature] = recipes_data[feature].fillna('')
 
-    # combining all the selected features
-    # combined_features = recipes_data['summary'] + ' ' + \
-    #                recipes_data['extendedIngredients'].astype(str) + ' ' + \
-    #                recipes_data['dishTypes'].astype(str)
-
-     # converting non-string data to strings and then combining them
-    combined_features = recipes_data['summary'] + ' ' + \
-        recipes_data['extendedIngredients'].apply(lambda x: ' '.join(map(str, x))) + ' ' + \
-        recipes_data['dishTypes'].apply(lambda x: ' '.join(map(str, x)))
+    # combining all the 5 selected features
+    combined_features = recipes_data['summary']+' ' + \
+        recipes_data['ingredients']+' '+recipes_data['dishTypes']
 
     # converting the text data to feature vectors
     vectorizer = TfidfVectorizer()
+
     feature_vectors = vectorizer.fit_transform(combined_features)
 
     # getting the similarity scores using cosine similarity
@@ -50,6 +36,7 @@ def load_data():
 
     g.recipes_data = recipes_data
     g.similarity = similarity
+
 
 @app.before_request
 def before_request():
@@ -63,7 +50,7 @@ def recommendations():
     similarity = g.similarity
 
     # getting the recipe name from the user
-    recipe_name = "Steak Salad with Chimichurri Sauce"
+    recipe_name = "Chicken Ranch Burgers"
 
     # creating a list with all the recipes names given in the dataset
     list_of_all_titles = recipes_data['title'].tolist()
@@ -98,12 +85,11 @@ def recommendations():
         title_from_index = recipes_data[recipes_data.index ==
                                         index]['title'].values[0]
         id_from_index = recipes_data[recipes_data.index ==
-                                     index]['_id'].values[0]
+                                     index]['id'].values[0]
         if (i < 30):
             recommended_recipes_name.append(title_from_index)
             recommended_recipes_id.append(str(id_from_index))
             print(i, '.', title_from_index)
-            print(i, '.', id_from_index)
             i += 1
 
     return jsonify({'recommendations_id': recommended_recipes_id})

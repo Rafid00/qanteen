@@ -12,7 +12,7 @@ import NavContext from "./components/NavContext.jsx";
 import Profile from "./pages/Profile.jsx";
 import AboutUs from "./pages/AboutUs.js";
 import Advanced from "./pages/Advanced.jsx";
-import Searched from "./pages/Searched.js";
+import Search from "./pages/Search.jsx";
 import Explore from "./pages/Explore.jsx";
 
 const App = () => {
@@ -22,7 +22,7 @@ const App = () => {
    return (
       <NavContext.Provider value={{ navOpen, setNavOpen }}>
          <Router>
-            <Navbar setSearched />
+            <Navbar setSearch />
             <Routes>
                <Route path="/" element={<Home />} />
                <Route path="/explore" element={<Explore />} />
@@ -30,11 +30,11 @@ const App = () => {
                <Route path="/register" element={<Register />} />
                <Route path="/profile" element={<Profile />} />
                <Route path="/recipeTemp/:name" element={<RecipeTemplate />} />
-               <Route path="/recipe/:name" element={<Recipe />} />
+               <Route path="/recipe/:id" element={<Recipe />} />
                <Route path="/bucket" element={<BucketList />} />
                <Route path="/aboutus" element={<AboutUs />} />
                <Route path="/advanced" element={<Advanced />} />
-               <Route path="/searched/:search" element={<Searched />} />
+               <Route path="/search/:search" element={<Search />} />
             </Routes>
             <Footer />
          </Router>

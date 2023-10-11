@@ -10,14 +10,15 @@ const RecipeCard = (props) => {
 
    let dishT = "";
 
-   if (props.dishTypes) {
-      dishT = props.dishTypes?.split(",");
-   }
+   // if (props.dishTypes) {
+   //    dishT = props.dishTypes?.split(",");
+   // }
+   dishT = props.dishTypes;
 
    return (
       <div>
          {
-            <Link to={"/recipe/" + props.id}>
+            <Link to={"/recipe/" + props._id}>
                <div className="card max-w-xs bg-base-100 shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer">
                   <figure className="w-[320px] object-cover">
                      <img src={props.image ? props.image : "images/buy-1.jpg"} alt={props.title} />
@@ -28,7 +29,7 @@ const RecipeCard = (props) => {
                         <div className="badge badge-success text-white">Original</div>
                      </h2>
                      <p className="text-xs overflow-hidden w-full -mt-2 text-zinc-500 truncate">
-                        By <span className="font-medium">{props.source_name}</span>
+                        By <span className="font-medium">{props.sourceName}</span>
                      </p>
                      <p className="text-sm h-16 mb-3 overflow-hidden w-full" dangerouslySetInnerHTML={{ __html: props.summary }}></p>
                      <div className="flex justify-between mb-3">

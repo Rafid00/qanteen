@@ -18,7 +18,7 @@ const Navbar = () => {
 
    const submitHandler = (e) => {
       e.preventDefault();
-      navigate("/searched/" + search);
+      navigate("/search/" + search);
    };
 
    return (
