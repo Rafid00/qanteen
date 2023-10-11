@@ -89,3 +89,6 @@ Data Collection / Extraction From Spoonicular - Using python
 Recommendation System
 Database connection - MongoDB Atlas
 Login/Registration Functionality - Using MongoDB and Express JS
+
+
+pip3 install -r requirements.txt
