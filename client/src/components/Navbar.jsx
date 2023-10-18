@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import NavContext from "./NavContext";
 import { useNavigate } from "react-router-dom";
-import SearchSuggestionsList from "./SearchSuggestionsList";
 
 const Navbar = () => {
    const { navOpen, setNavOpen } = React.useContext(NavContext);
@@ -59,7 +58,6 @@ const Navbar = () => {
                               onChange={(e) => setSearch(e.target.value)}
                               value={search}
                            />
-                           {search.length > 0 && <SearchSuggestionsList search={search} />}
 
                            <button className="btn btn-square" type="submit">
                               <svg

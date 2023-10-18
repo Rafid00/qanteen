@@ -24,28 +24,50 @@ mongoose
    .catch((err) => console.error("Could not connect to MongoDB.", err));
 
 app.post("/recommendations", async (req, res) => {
-   const data = [
-      {
-         recipe: "Steak Salad with Chimichurri Sauce",
-      },
-   ];
+   function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+         const j = Math.floor(Math.random() * (i + 1));
+         [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+   }
+   try {
+      const token = req.headers.authorization.split(" ")[1]; // Extract the token from the authorization header
+      const decoded = jwt.verify(token, JWT_SECRET); // Verify the token
 
-   const recommended_recipe = [];
+      // Use the decoded data to find the user in the database
+      const user = await user_m.findOne({ email: decoded.email }).populate("savedPosts");
 
-   fetch("http://127.0.0.1:8080/recommendations", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-   })
-      .then((response) => response.json())
-      .then(async (data) => {
-         for (let i = 0; i < 20; i++) {
-            const recipeOne = await recipe_m.findOne({ _id: data.recommendations_id[i] });
-            recommended_recipe.push(recipeOne);
-         }
-         res.send({ status: "ok", recipe: recommended_recipe });
+      // Extract the saved posts data
+      const savedPosts = user.savedPosts;
+
+      const data = [];
+
+      for(let i = 0; i < savedPosts.length; i++) {
+         if(i == 5) break;
+         data.push({recipe: savedPosts[i]["title"]});
+      }
+
+      const recommended_recipe = [];
+
+      fetch("http://127.0.0.1:8080/recommendations", {
+         method: "POST",
+         body: JSON.stringify(data),
+         headers: { "Content-Type": "application/json" },
       })
-      .catch((err) => console.error(err));
+         .then((response) => response.json())
+         .then(async (data) => {
+            let shuffled = shuffleArray(data.recommendations_id);
+            for (let i = 0; i < 20; i++) {
+               const recipeOne = await recipe_m.findOne({ _id: shuffled[i] });
+               recommended_recipe.push(recipeOne);
+            }
+            res.send({ status: "ok", recipe: recommended_recipe });
+         })
+         .catch((err) => console.error(err));
+   } catch (error) {
+      res.status(401).json({ recipe: "Unauthorized" });
+   }
 });
 
 app.post("/register", async (req, res) => {
@@ -148,5 +170,75 @@ app.post("/search", async (req, res) => {
       res.send({ status: "ok", recipes: recipes });
    } catch (err) {
       res.status(500).json({ error: "An error occurred while searching for recipes." });
+   }
+});
+
+app.post("/saveRecipe", async (req, res) => {
+   try {
+      const token = req.headers.authorization.split(" ")[1]; // Extract the token from the authorization header
+      const decoded = jwt.verify(token, JWT_SECRET); // Verify the token
+
+      // Use the decoded data to find the user in the database
+      const user = await user_m.findOne({ email: decoded.email }); // Assuming you have a User model
+
+      // Assuming you have a recipe ID that you want to save for the user
+      const recipeId = req.body.recipeId; // Assuming the recipeId is sent in the request body
+
+      // Check if the recipeId already exists in the user's savedPosts
+      const index = user.savedPosts.indexOf(recipeId);
+      if (index !== -1) {
+         user.savedPosts.splice(index, 1); // Remove the recipeId from the savedPosts array
+         await user.save(); // Save the updated user data
+         return res.status(200).json({ message: "Recipe removed from saved list" });
+      }
+
+      // Add the recipeId to the user's savedPosts
+      user.savedPosts.push(recipeId);
+
+      // Save the updated user data
+      await user.save();
+
+      res.status(200).json({ message: "Recipe saved successfully" });
+   } catch (error) {
+      res.status(401).json({ message: "Unauthorized" });
+   }
+});
+
+app.post("/checkSaved", async (req, res) => {
+   try {
+      const token = req.headers.authorization.split(" ")[1]; // Extract the token from the authorization header
+      const decoded = jwt.verify(token, JWT_SECRET); // Verify the token
+
+      // Use the decoded data to find the user in the database
+      const user = await user_m.findOne({ email: decoded.email }); // Assuming you have a User model
+
+      // Assuming you have a recipe ID that you want to save for the user
+      const recipeId = req.body.recipeId; // Assuming the recipeId is sent in the request body
+
+      // Check if the recipeId already exists in the user's savedPosts
+      if (user.savedPosts.includes(recipeId)) {
+         return res.status(400).json({ saved: true });
+      }
+
+      res.status(200).json({ saved: false });
+   } catch (error) {
+      res.status(401).json({ saved: "Unauthorized" });
+   }
+});
+
+app.post("/postManagement", async (req, res) => {
+   try {
+      const token = req.headers.authorization.split(" ")[1]; // Extract the token from the authorization header
+      const decoded = jwt.verify(token, JWT_SECRET); // Verify the token
+
+      // Use the decoded data to find the user in the database
+      const user = await user_m.findOne({ email: decoded.email }).populate("savedPosts");
+
+      // Extract the saved posts data
+      const savedPosts = user.savedPosts;
+
+      res.send({ status: "ok", saved: savedPosts });
+   } catch (error) {
+      res.status(401).json({ saved: "Unauthorized" });
    }
 });

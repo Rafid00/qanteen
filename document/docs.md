@@ -92,3 +92,7 @@ Login/Registration Functionality - Using MongoDB and Express JS
 
 
 pip3 install -r requirements.txt
+
+
+Things which has issues:
+	JWT Verification - Possible XSS Attack

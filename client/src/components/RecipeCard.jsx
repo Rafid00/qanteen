@@ -10,9 +10,6 @@ const RecipeCard = (props) => {
 
    let dishT = "";
 
-   // if (props.dishTypes) {
-   //    dishT = props.dishTypes?.split(",");
-   // }
    dishT = props.dishTypes;
 
    return (

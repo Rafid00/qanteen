@@ -1,27 +1,54 @@
 import React, { useEffect, useState } from "react";
-import NutritionCircle from "../components/NutritionCircle";
 import { useParams } from "react-router-dom";
-import ApiKey from "../ApiKey";
 
 const Recipe = () => {
    const [data, setData] = useState([]);
+   const [saved, setSaved] = useState(false);
    let params = useParams();
    let token = localStorage.getItem("token");
 
+   const saveRecipe = async () => {
+      const response = await fetch("http://localhost:5000/saveRecipe", {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+         },
+         body: JSON.stringify({ recipeId: params.id }),
+      });
+
+      const data = await response.json();
+      setSaved(!saved);
+      alert(data.message); // Handle the response from the server
+   };
 
    useEffect(() => {
       window.scrollTo(0, 0);
       fetch("http://localhost:5000/recipeInfo", {
          method: "POST",
          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ id: params.id }),
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify({ id: params.id }),
       })
          .then((res) => res.json())
          .then((data) => {
             setData(data.recipeInfo);
          });
+      if (token) {
+         fetch("http://localhost:5000/checkSaved", {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ recipeId: params.id }),
+         })
+            .then((res) => res.json())
+            .then((data) => {
+               setSaved(data.saved);
+            });
+      }
    }, []);
 
    const [thingsArray, setThingsArray] = React.useState([
@@ -59,10 +86,25 @@ const Recipe = () => {
                      <p className="text-xl text-orange-400 font-medium">[4]</p>
                   </div>
 
-                  <button className="btn w-32 flex gap-1 mt-8">
-                     <i className="fa-sharp fa-regular fa-bookmark"></i>
-                     Save
-                  </button>
+                  {token ? (
+                     <button className="btn w-32 flex gap-1 mt-8" onClick={saveRecipe}>
+                        {saved ? (
+                           <div className="">
+                              Saved
+                           </div>
+                        ) : (
+                           <div className="">
+                              <i className="fa-sharp fa-regular fa-bookmark"></i> Save
+                           </div>
+                        )}
+                     </button>
+                  ) : (
+                     <button className="btn w-32 flex gap-1 mt-8" disabled>
+                        <i className="fa-sharp fa-regular fa-bookmark"></i>
+                        Save
+                     </button>
+                  )}
+
                   <div className="text-lg mt-16">
                      <div className="flex">
                         <div className="text-center">
