@@ -15,7 +15,6 @@ Page Plans
 
 	Sign In [D]
 	Registration [D]
-	Forget Password
 	Advanced Search [D]
 	Browse / Explore [D]
 	Profile [D]
@@ -24,11 +23,15 @@ Page Plans
 	Liked Recipes [D]
 	Recipe Page [D]
 	Rating / Comment [D]
+	Forget Password
 	Bucket List
 	Follow / Subscribe Account
 	Messenger Application
 	About Us
 	Search Result
+	Recipe Posting Page [FD]
+	Advanced Search
+	Recipe Page - Rating, Comment, Ingredient Info
 
 Recommendation Model Train: https://colab.research.google.com/drive/1T-U9XejZrqBR0RCoA5Koup4EBr7O-B6a?usp=sharing
 

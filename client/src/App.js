@@ -13,6 +13,7 @@ import AboutUs from "./pages/AboutUs.js";
 import Advanced from "./pages/Advanced.jsx";
 import Search from "./pages/Search.jsx";
 import Explore from "./pages/Explore.jsx";
+import WriteRecipe from "./pages/WriteRecipe.jsx";
 
 const App = () => {
    const [navOpen, setNavOpen] = useState(true);
@@ -25,6 +26,7 @@ const App = () => {
             <Routes>
                <Route path="/" element={<Home />} />
                <Route path="/explore" element={<Explore />} />
+               <Route path="/writerecipe" element={<WriteRecipe />} />
                <Route path="/login" element={<Login />} />
                <Route path="/register" element={<Register />} />
                <Route path="/profile" element={<Profile />} />
