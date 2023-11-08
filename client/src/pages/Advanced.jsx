@@ -24,7 +24,7 @@ const Advanced = () => {
    const submitHandler = (e) => {
       e.preventDefault();
       e.preventDefault();
-      navigate("/searched/" + search);
+      navigate("/search/" + search);
    };
 
    return (

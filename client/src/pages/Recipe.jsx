@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Tooltip from "../components/Tooltip";
 
 const Recipe = () => {
    const [data, setData] = useState([]);
+   const [ingredients, setIngredients] = useState([]);
    const [saved, setSaved] = useState(false);
    let params = useParams();
    let token = localStorage.getItem("token");
@@ -34,6 +36,8 @@ const Recipe = () => {
          .then((res) => res.json())
          .then((data) => {
             setData(data.recipeInfo);
+            setIngredients(data.ingredientInfo.ingredients);
+            console.log(data.ingredientInfo.ingredients);
          });
       if (token) {
          fetch("http://localhost:5000/checkSaved", {
@@ -50,6 +54,17 @@ const Recipe = () => {
             });
       }
    }, []);
+
+   const showTooltip = (e) => {
+      if(!e.target.previousSibling.classList.contains("hidden")){
+         e.target.previousSibling.classList.add("hidden");
+         return;
+      }
+      document.querySelectorAll(".tooltipIngredient").forEach((tooltip) => {
+         tooltip.classList.add("hidden");
+      });
+      e.target.previousSibling.classList.remove("hidden");
+   };
 
    const [thingsArray, setThingsArray] = React.useState([
       { name: "Calorie", value: "80" },
@@ -89,9 +104,7 @@ const Recipe = () => {
                   {token ? (
                      <button className="btn w-32 flex gap-1 mt-8" onClick={saveRecipe}>
                         {saved ? (
-                           <div className="">
-                              Saved
-                           </div>
+                           <div className="">Saved</div>
                         ) : (
                            <div className="">
                               <i className="fa-sharp fa-regular fa-bookmark"></i> Save
@@ -146,9 +159,16 @@ const Recipe = () => {
                   <p className="w-full text-2xl mb-2 font-medium">Ingredients</p>
                   <ul className="flex flex-col gap-2">
                      {data && data.extendedIngredients ? (
-                        data.extendedIngredients.map((ingredient) => (
-                           <li className="flex items-center justify-center lg:justify-start">
-                              <img className="w-5 h-5 mr-2" src="/images/question.png" alt="" />
+                        data.extendedIngredients.map((ingredient, index) => (
+                           <li className="flex items-center justify-center lg:justify-start relative">
+                              <div className="tooltipIngredient hidden absolute -left-72">
+                                 <Tooltip
+                                    name={ingredients[index].name}
+                                    image={ingredients[index].image}
+                                    description={ingredients[index].description}
+                                 />
+                              </div>
+                              <img onClick={showTooltip} className="w-5 h-5 mr-2" src="/images/question.png" alt="" />
                               <p> {ingredient}</p>
                            </li>
                         ))

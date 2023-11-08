@@ -64,7 +64,7 @@ const getRecipeDescription = async (recipe) => {
          }
       });
       if (description) {
-         return "Recipe description: " + description;
+         return description + "learn more at: " + url;
       } else {
          return "Description not found for the specified recipe.";
       }
@@ -80,22 +80,24 @@ const extract = async (recipe) => {
    for (let i = 0; i < ingredientName.length; i++) {
       const recipeImage = await getIngredientImage(ingredientName[i]);
       if (recipeImage.includes("Error")) {
-         console.log(image);
+         console.log(recipeImage);
          continue;
       } else {
          const recipeDescription = await getRecipeDescription(ingredientName[i]);
+         if(recipeDescription.includes("Error")) {
+            continue;
+         }
          console.log(recipeImage);
          console.log(recipeDescription);
          const result = {
-            ingredient: ingredientName[i],
+            name: ingredientName[i],
             image: recipeImage,
             description: recipeDescription,
          };
          return result;
       }
    }
-
-   return { ingredient: "Ingredient not found" };
+   return { name: ingredientName[0], image: "Image not found", description: "Description not found" };
 };
 
-extract("1 cup of chicken breast");
+module.exports = extract;

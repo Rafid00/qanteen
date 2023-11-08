@@ -3,9 +3,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const user_m = require("./models/user");
 const recipe_m = require("./models/recipe");
+const ingredient_m = require("./models/ingredient");
 const { ObjectId } = mongoose.Types;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const extract = require("./extract");
 
 const JWT_SECRET = "sadasdasdasfsadas1dsa2321sdfasdas2312asdas";
 
@@ -43,9 +45,9 @@ app.post("/recommendations", async (req, res) => {
 
       const data = [];
 
-      for(let i = 0; i < savedPosts.length; i++) {
-         if(i == 5) break;
-         data.push({recipe: savedPosts[i]["title"]});
+      for (let i = 0; i < savedPosts.length; i++) {
+         if (i == 5) break;
+         data.push({ recipe: savedPosts[i]["title"] });
       }
 
       const recommended_recipe = [];
@@ -143,10 +145,11 @@ app.post("/recipeInfo", async (req, res) => {
    try {
       const { id } = req.body;
       const recipeInfo = await recipe_m.findOne({ _id: id });
+      const ingredientInfo = await ingredient_m.findOne({ recipeID: id });
       if (!recipeInfo) {
          return res.json({ status: "error", error: "Recipe not found" });
       }
-      res.send({ status: "ok", recipeInfo: recipeInfo });
+      res.send({ status: "ok", recipeInfo: recipeInfo, ingredientInfo: ingredientInfo });
    } catch (err) {
       res.send({ status: "error", error: err });
    }
@@ -242,3 +245,18 @@ app.post("/postManagement", async (req, res) => {
       res.status(401).json({ saved: "Unauthorized" });
    }
 });
+
+const ingredientInfoCollection = async () => {
+   const recipes = await recipe_m.find();
+   for (let i = 0; i < recipes.length; i++) {
+      const ingredients = recipes[i].extendedIngredients;
+      const ingredientsToSave = [];
+      for (let j = 0; j < ingredients.length; j++) {
+         console.log("\n\nrecipe no. " + (i + 1) + " ingredient: " + ingredients[j] + "\n\n");
+         const ingredient = ingredients[j];
+         const ingredientInfo = await extract(ingredient);
+         ingredientsToSave.push(ingredientInfo);
+      }
+      await ingredient_m.insertMany({ recipeID: recipes[i]._id, ingredients: ingredientsToSave });
+   }
+};
