@@ -12,3 +12,10 @@ Recipe search functionality using inverted index and cosine similarity algorithm
 Recipe recommendation system using machine learning algorithms to provide personalized recipe recommendations to users based on their preferences and behavior
 User profile management for users to manage their recipes, favorite recipes, and other profile information
 Qanteen is a perfect platform for food enthusiasts, home cooks, and food bloggers who are looking for a place to share and discover new recipes. With its user-friendly interface, powerful search and recommendation system, and robust feature set, Qanteen is the ultimate recipe sharing and discovery web application.
+
+Instruction:
+1. Go to client folder and run "npm install" - it will install all the dependencies for the client side.
+2. Go to server folder and run "npm install" - it will install all the dependencies for the server side.
+3. Run "python run.py" in the main folder. - it will automate the process for running
+    If want to run manually. Go to server folder and run "python recommendation.py" and "node index.js"
+    Also, go to client folder and run "npm run start"
