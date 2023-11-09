@@ -46,7 +46,7 @@ const PostManagement = () => {
                   Rated Recipes
                </button>
             </div>
-            <div className="grid gap-y-10 justify-items-center gap-x-10 grid-auto-fit mt-8 mb-3">{recipes}</div>
+            <div className="grid gap-y-10 justify-items-center gap-x-14 grid-auto-fit mt-8 mb-3">{recipes}</div>
          </div>
       </div>
    );
