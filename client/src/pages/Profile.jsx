@@ -34,8 +34,8 @@ const Profile = () => {
 
    return (
       <div className="px-4 py-16 md:px-24 gap-10 flex flex-col lg:flex-row justify-center items-center lg:items-start">
-         <ProfileCard settingOn={settingOn} setSettingOn={setSettingOn} profileData = {profileData}/>
-         <SettingsProfile settingOn={settingOn}  profileData = {profileData}/>
+         <ProfileCard settingOn={settingOn} setSettingOn={setSettingOn} profileData={profileData} />
+         <SettingsProfile settingOn={settingOn} profileData={profileData} />
          <PostManagement />
       </div>
    );

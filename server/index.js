@@ -45,6 +45,8 @@ app.post("/recommendations", async (req, res) => {
 
       const data = [];
 
+      if(savedPosts.length === 0) return res.send({ status: "ok", recipe: [] });
+
       for (let i = 0; i < savedPosts.length; i++) {
          if (i == 5) break;
          data.push({ recipe: savedPosts[i]["title"] });
@@ -207,6 +209,37 @@ app.post("/saveRecipe", async (req, res) => {
    }
 });
 
+app.post("/advancedSearch", async (req, res) => {
+   const data = req.body;
+   try {
+      let query = {};
+      if (data.search) {
+         query.title = { $regex: data.search, $options: "i" };
+      }
+
+      if (data.includeIngredients) {
+         query.ingredients = { $in: data.includeIngredients };
+      }
+
+      if (data.excludeIngredients) {
+         query.ingredients = { $nin: data.excludeIngredients };
+      }
+
+      if (data.servings) {
+         query.servings = { $lte: data.servings };
+      }
+
+      if (data.preparationTime) {
+         query.readyInMinutes = { $lte: data.preparationTime };
+      }
+
+      const result = await recipe_m.find(query).limit(20);
+      res.send({ status: "ok", recipes: result });
+   } catch (err) {
+      res.status(500).json({ error: "An error occurred while searching for recipes." });
+   }
+});
+
 app.post("/checkSaved", async (req, res) => {
    try {
       const token = req.headers.authorization.split(" ")[1]; // Extract the token from the authorization header
@@ -242,6 +275,43 @@ app.post("/postManagement", async (req, res) => {
 
       res.send({ status: "ok", saved: savedPosts });
    } catch (error) {
+      res.status(401).json({ saved: "Unauthorized" });
+   }
+});
+
+app.post("updateProfile", async (req, res) => {
+   try {
+      const token = req.headers.authorization.split(" ")[1]; // Extract the token from the authorization header
+      const decoded = jwt.verify(token, JWT_SECRET); // Verify the token
+
+      // Use the decoded data to find the user in the database
+      const user = await user_m.findOne({ email: decoded.email }); // Assuming you have a User model
+
+      const password = req.body.password;
+      const name = req.body.name;
+      const email = req.body.email;
+      const biography = req.body.biography;
+
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordCorrect) {
+         return res.status(400).json({ saved: "Incorrect password" });
+      }
+
+      const update = {
+         name: name,
+         email: email,
+         biography: biography,
+      };
+
+      const result = await user_m.updateOne({ email: decoded.email }, update);
+
+      if (result.nModified === 1) {
+         return res.status(200).json({ saved: "Profile updated successfully" });
+      } else {
+         return res.status(400).json({ saved: "Error updating profile" });
+      }
+   } catch (err) {
       res.status(401).json({ saved: "Unauthorized" });
    }
 });

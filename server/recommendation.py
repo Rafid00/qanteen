@@ -104,7 +104,7 @@ def recommendations():
                                             index]['title'].values[0]
             id_from_index = recipes_data[recipes_data.index ==
                                         index]['_id'].values[0]
-            if (i < 15):
+            if (i < 21):
                 recommended_recipes_name.append(title_from_index)
                 recommended_recipes_id.append(str(id_from_index))
                 print(i, '.', title_from_index)

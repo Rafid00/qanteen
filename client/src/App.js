@@ -14,6 +14,7 @@ import Advanced from "./pages/Advanced.jsx";
 import Search from "./pages/Search.jsx";
 import Explore from "./pages/Explore.jsx";
 import WriteRecipe from "./pages/WriteRecipe.jsx";
+import AdvancedSearch from "./pages/AdvancedSearch.jsx";
 
 const App = () => {
    const [navOpen, setNavOpen] = useState(true);
@@ -35,6 +36,7 @@ const App = () => {
                <Route path="/aboutus" element={<AboutUs />} />
                <Route path="/advanced" element={<Advanced />} />
                <Route path="/search/:search" element={<Search />} />
+               <Route path="/advancedSearch" element={<AdvancedSearch />} />
             </Routes>
             <Footer />
          </Router>

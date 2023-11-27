@@ -20,6 +20,9 @@ const Home = () => {
       })
          .then((res) => res.json())
          .then((data) => {
+            if(data.recipe.length === 0) {
+               window.location.replace("/explore");
+            }
             setLoading(false);
             setRecipeData(data.recipe);
          });
