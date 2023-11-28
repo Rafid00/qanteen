@@ -1,5 +1,7 @@
 ## Qanteen: Recipe Sharing and Discovery Web Application
 
+![screencapture-localhost-3000-2023-11-29-00_52_35](https://github.com/Rafid00/qanteen/assets/48888237/a039e157-0cf8-46e2-9426-62289ffc5b49)
+
 Qanteen is a web application that allows users to share, discover, and organize recipes. The application provides a platform for users to create and share their favorite recipes with the community, as well as discover new recipes from other users.
 
 The web application is built with a modern tech stack, including Express.js, Node.js, React.js, and MongoDB. The backend is built with Express.js and Node.js, providing a robust and scalable framework for building web applications. The frontend is built with React.js, providing a fast and responsive user interface for a seamless user experience. The application uses MongoDB as the database to store and manage recipe data.
