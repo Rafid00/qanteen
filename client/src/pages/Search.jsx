@@ -93,7 +93,8 @@ function Searched() {
                         Search Result For "{params.search}"
                      </p>
                   </div>
-                  <div className="grid gap-y-10 justify-items-center lg:justify-items-start gap-x-20 grid-auto-fit">{recipes}</div>
+                  {/* <div className="grid gap-y-10 justify-items-center lg:justify-items-start gap-x-20 grid-auto-fit">{recipes}</div> */}
+                  <div className="flex gap-10 justify-center flex-wrap">{recipes}</div>
                </div>
             ) : (
                <div className="w-full flex justify-center">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const EditProfile = ({ settingOn, profileData}) => {
+const EditProfile = ({ settingOn, profileData }) => {
    const [name, setName] = useState(profileData?.name);
    const [email, setEmail] = useState(profileData?.email);
    const [biography, setBiography] = useState(profileData?.biography);
@@ -25,19 +25,21 @@ const EditProfile = ({ settingOn, profileData}) => {
 
    const updateSettings = (e) => {
       e.preventDefault();
+      if (document.getElementById("confirm").value === "") {
+         alert("Please enter your password to update your profile.");
+         return;
+      }
+      document.getElementById("update_setting").disabled = true;
       try {
          fetch("http://localhost:5000/updateProfile", {
             method: "POST",
             crossDomain: true,
             headers: {
                "Content-Type": "application/json",
-               Accept: "application/json",
-               "Access-Control-Allow-Origin": "*",
+               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             body: JSON.stringify({
-               token: window.localStorage.getItem("token"),
                name: name,
-               email: email,
                biography: biography,
                password: document.getElementById("confirm").value,
             }),
@@ -45,10 +47,10 @@ const EditProfile = ({ settingOn, profileData}) => {
             .then((res) => res.json())
             .then((data) => {
                console.log(data);
-               if (data.status === "success") {
-                  alert("Profile updated successfully");
-               } else {
-                  alert("Error updating profile");
+               alert(data.saved);
+               document.getElementById("update_setting").disabled = false;
+               if (data.updated === "ok") {
+                  window.location.reload();
                }
             });
       } catch (err) {
@@ -62,14 +64,14 @@ const EditProfile = ({ settingOn, profileData}) => {
             <div className=" mb-5 mt-2 font-medium divider text-zinc-800">Profile Settings</div>
             <div className="form-control h-fit w-full">
                <label className="input-group">
-                  <span className="w-[120px] justify-center text-sm">Name</span>
-                  <input type="text" value={name} onChange={handleNameChange} className="input input-bordered w-full" />
+                  <span className="w-[120px] justify-center text-sm">Email</span>
+                  <input type="email" value={email} onChange={handleEmailChange} className="input input-bordered w-full" disabled />
                </label>
             </div>
             <div className="form-control h-fit w-full">
                <label className="input-group">
-                  <span className="w-[120px] justify-center text-sm">Email</span>
-                  <input type="email" value={email} onChange={handleEmailChange} className="input input-bordered w-full" />
+                  <span className="w-[120px] justify-center text-sm">Name</span>
+                  <input type="text" value={name} onChange={handleNameChange} className="input input-bordered w-full" />
                </label>
             </div>
             <div className="form-control h-fit w-full">
@@ -101,14 +103,14 @@ const EditProfile = ({ settingOn, profileData}) => {
             <div className="form-control h-fit w-full">
                <label className="input-group rounded-full" style={{ outline: "2px solid hsla(var(--bc) / 0.2)", outlineOffset: "2px" }}>
                   <span className="w-[120px] justify-center text-sm text-center leading-4">Confirm Password</span>
-                  <input id="confirm" type="password" placeholder="Confirm Password" className="input input-bordered w-full" />
+                  <input id="confirm" type="password" placeholder="Confirm Password" className="input input-bordered w-full" required />
                </label>
                <label className="label">
                   <span className="label-text-alt invisible">Bottom Left label</span>
                   <span className="label-text-alt text-zinc-500">Insert the password for updating info</span>
                </label>
             </div>
-            <button onClick={updateSettings} className="btn btn-success my-2">
+            <button onClick={updateSettings} id="update_setting" className="btn btn-success my-2">
                Update settings
             </button>
          </div>

@@ -46,7 +46,9 @@ const PostManagement = () => {
                   Rated Recipes
                </button>
             </div>
-            <div className="grid gap-y-10 justify-items-center gap-x-14 grid-auto-fit mt-8 mb-3">{recipes}</div>
+            <div className="divider"></div>
+            {/* <div className="w-full grid gap-y-10 justify-items-center gap-x-14 grid-auto-fit mt-8 mb-3">{recipes}</div> */}
+            <div className="w-full flex flex-wrap justify-center items-center gap-10 mt-8 mb-3">{recipes}</div>
          </div>
       </div>
    );

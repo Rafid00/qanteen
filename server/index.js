@@ -45,7 +45,7 @@ app.post("/recommendations", async (req, res) => {
 
       const data = [];
 
-      if(savedPosts.length === 0) return res.send({ status: "ok", recipe: [] });
+      if (savedPosts.length === 0) return res.send({ status: "ok", recipe: [] });
 
       for (let i = 0; i < savedPosts.length; i++) {
          if (i == 5) break;
@@ -279,7 +279,7 @@ app.post("/postManagement", async (req, res) => {
    }
 });
 
-app.post("updateProfile", async (req, res) => {
+app.post("/updateProfile", async (req, res) => {
    try {
       const token = req.headers.authorization.split(" ")[1]; // Extract the token from the authorization header
       const decoded = jwt.verify(token, JWT_SECRET); // Verify the token
@@ -289,30 +289,17 @@ app.post("updateProfile", async (req, res) => {
 
       const password = req.body.password;
       const name = req.body.name;
-      const email = req.body.email;
       const biography = req.body.biography;
 
-      const isPasswordCorrect = await bcrypt.compare(password, user.password);
-
-      if (!isPasswordCorrect) {
-         return res.status(400).json({ saved: "Incorrect password" });
+      if (!(await bcrypt.compare(password, user.password))) {
+         return res.status(400).json({ updated: "error", saved: "Wrong password" });
       }
 
-      const update = {
-         name: name,
-         email: email,
-         biography: biography,
-      };
+      const result = await user_m.updateOne({ email: decoded.email }, { name: name, biography: biography });
 
-      const result = await user_m.updateOne({ email: decoded.email }, update);
-
-      if (result.nModified === 1) {
-         return res.status(200).json({ saved: "Profile updated successfully" });
-      } else {
-         return res.status(400).json({ saved: "Error updating profile" });
-      }
+      res.status(200).json({ updated: "ok", saved: "Profile updated successfully" });
    } catch (err) {
-      res.status(401).json({ saved: "Unauthorized" });
+      res.status(401).json({ updated: "error", saved: "Unauthorized" });
    }
 });
 

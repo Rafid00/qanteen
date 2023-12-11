@@ -4,13 +4,12 @@ const ProfileCard = ({ settingOn, setSettingOn, profileData }) => {
    return (
       <div className="card w-fit bg-base-100 shadow-xl">
          <div className="card-body flex flex-col justify-center items-center gap-5">
-            <div className="avatar">
-               <div className="w-24 rounded-full">
-                  <img
-                     src="https://media.istockphoto.com/id/1300512215/photo/headshot-portrait-of-smiling-ethnic-businessman-in-office.jpg?b=1&s=612x612&w=0&k=20&c=5QE_Qf5Vth9bCHcD5OpdZ1PoPhn36j3GtRVzaFAa22c="
-                     alt="profile_picture"
-                  />
-               </div>
+            <div>
+               <img
+               className="rounded-full w-32 h-32 object-cover"
+                  src="images/propic.jpg"
+                  alt="profile_picture"
+               />
             </div>
             <div className="flex flex-col gap-3">
                <div className="flex flex-col items-center justify-center gap-3">
